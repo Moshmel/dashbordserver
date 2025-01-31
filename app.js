@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 
 // בחר פורט שבו השרת יאזין
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // נתיב בסיסי שמחזיר טקסט לדפדפן
 app.get('/', (req, res) => {
