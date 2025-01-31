@@ -5,19 +5,30 @@ const cors = require('cors'); // הוספת CORS
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// משתנה לאחסון הנתונים שהתקבלו
+let webhookData = 'הנתונים טרם התקבלו';
+
 // אפשר לכל האתרים לשלוח בקשות (או לציין דומיין ספציפי)
 app.use(cors());
 
 // Middleware שיאפשר קריאת Body כטקסט רגיל (string)
 app.use(bodyParser.text({ type: '*/*' }));
 
-// Endpoint שמאזין לנתונים
-app.post('/webhook', (req, res) => {
-    // הדפסת המידע שהתקבל בקונסול של השרת
-    console.log('📩 התקבל מידע מהוובהוק:', req.body);
+// Endpoint שמאזין לבקשת GET בנתיב הראשי (לצורך הצגת הנתונים)
+app.get('/', (req, res) => {
+    res.send(`<h1>השרת רץ בהצלחה!</h1><p>הנתונים שהתקבלו מהוובהוק:</p><pre>${webhookData}</pre>`);
+});
 
-    // מחזיר את הטקסט שהתקבל
-    res.send(`המידע שהתקבל: ${req.body}`);
+// Endpoint שמאזין לנתונים לוובהוק
+app.post('/webhook', (req, res) => {
+    // עדכון המשתנה עם המידע שהתקבל מהוובהוק
+    webhookData = req.body;
+
+    // הדפסת המידע שהתקבל בקונסול של השרת
+    console.log('📩 התקבל מידע מהוובהוק:', webhookData);
+
+    // שליחה של תשובה ללקוח שהמידע התקבל בהצלחה
+    res.send(`המידע שהתקבל: ${webhookData}`);
 });
 
 // הפעלת השרת
