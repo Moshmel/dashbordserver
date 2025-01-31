@@ -13,8 +13,8 @@ app.use(bodyParser.text({ type: '*/*' }));
 
 // 📌 Endpoint שמאזין לנתונים
 app.post('/webhook', (req, res) => {
-    console.log('📩 התקבל מידע מהוובהוק:', req.body); // 📌 הדפסת הנתונים בקונסול של השרת
-    res.send('✅ הנתונים התקבלו בהצלחה!',req.body);
+    console.log('📩 התקבל מידע מהוובהוק:',req.body); // 📌 הדפסת הנתונים בקונסול של השרת
+    res.send(req.body);
 });
 
 // 📌 הפעלת השרת
