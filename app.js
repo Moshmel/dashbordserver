@@ -1,15 +1,23 @@
 const express = require('express');
-const app = express();
+const bodyParser = require('body-parser');
+const cors = require('cors'); // 📌 הוספת CORS
 
-// בחר פורט שבו השרת יאזין
+const app = express();
 const PORT = process.env.PORT || 3000;
 
-// נתיב בסיסי שמחזיר טקסט לדפדפן
-app.get('/', (req, res) => {
-    res.send('השרת רץ בהצלחה!');
+// 📌 אפשר לכל האתרים לשלוח בקשות (או לציין דומיין ספציפי)
+app.use(cors());
+
+// 📌 Middleware שיאפשר קריאת Body כטקסט
+app.use(bodyParser.text({ type: '*/*' }));
+
+// 📌 Endpoint שמאזין לנתונים
+app.post('/webhook', (req, res) => {
+    console.log('📩 התקבל מידע מהוובהוק:', req.body); // 📌 הדפסת הנתונים בקונסול של השרת
+    res.send('✅ הנתונים התקבלו בהצלחה!');
 });
 
-// הפעלת השרת
+// 📌 הפעלת השרת
 app.listen(PORT, () => {
-    console.log(`השרת רץ על http://localhost:${PORT}`);
+    console.log(`🚀 השרת רץ על http://localhost:${PORT}`);
 });
