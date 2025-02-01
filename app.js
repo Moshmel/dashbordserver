@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // הוספת CORS
-const { parseCSV,extractGeneralData } = require('./functions/csvParser').default; // מייבאים את הפונקציה מקובץ functions/csvParser.js
+const { extractGeneralData } = require('./functions/csvParser').default; // מייבאים את הפונקציה מקובץ functions/csvParser.js
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
       <h1>הנתונים שהתקבלו:</h1>
       <pre>
         ${JSON.stringify(webhookData, null, 2)}
+         ${JSON.stringify(generalData, null, 2)}
       </pre>
     `);
   });
@@ -29,9 +30,9 @@ app.get('/', (req, res) => {
 app.post('/webhook', (req, res) => {
     // עדכון המשתנה עם המידע שהתקבל מהוובהוק
     webhookData = req.body;
-    // generalData=extractGeneralData(webhookData);
+    generalData=extractGeneralData(webhookData);
     // הדפסת המידע שהתקבל בקונסול של השרת
-    console.log('📩 התקבל מידע מהוובהוק:', webhookData);
+    console.log(' התקבל מידע מהוובהוק:', webhookData);
 
     // שליחה של תשובה ללקוח שהמידע התקבל בהצלחה
     res.send(`המידע שהתקבל: ${webhookData}`);
