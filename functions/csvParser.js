@@ -2,17 +2,20 @@ function parseCSV(csvString) {
     // מפצלים את המחרוזת לשורות (כל שורה ב-CSV)
     const rows = csvString.split('\n');
     
+    // מסננים שורות ריקות או שורות עם רווחים בלבד
+    const cleanedRows = rows.filter(row => row.trim() !== '');
+    
     // מפצלים כל שורה לערכים (ע"י split() עם פסיק כמאפיין בין הערכים)
-    const parsedData = rows.map(row => {
-      // חותכים את הערכים בתוך השורה
-      const values = row.split(',');
+    const parsedData = cleanedRows.map(row => {
+        // חותכים את הערכים בתוך השורה
+        const values = row.split(',');
   
-      // עבור כל ערך בשורה, אם הוא ריק, ממלאים אותו באובייקט ריק (או null, אם תרצה)
-      return values.map(value => value.trim() === '' ? {} : value);
+        // עבור כל ערך בשורה, אם הוא ריק, ממלאים אותו ב-0
+        return values.map(value => value.trim() === '' ? '0' : value);
     });
   
     return parsedData;
-  }
+}
 
   function extractGeneralData(data) {
     // 1. קבלת ימי עסקים שנותרו
