@@ -20,8 +20,8 @@ app.get('/', (req, res) => {
     res.send(`
       <h1>הנתונים שהתקבלו:</h1>
       <pre>
-        ${JSON.stringify(webhookData, null, 2)}
-         ${JSON.stringify(generalData, null, 2)}
+        ${webhookData}
+         ${generalData}
       </pre>
     `);
   });
