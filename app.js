@@ -17,14 +17,19 @@ let generalData=[];
 
 // Endpoint שמאזין לבקשת GET בנתיב הראשי (לצורך הצגת הנתונים)
 app.get('/', (req, res) => {
-    res.send(`<pre>${JSON.stringify(generalData, null, 2)}${JSON.stringify(webhookData, null, 2)}</pre>`);
-});
+    res.send(`
+      <h1>הנתונים שהתקבלו:</h1>
+      <pre>
+        ${JSON.stringify(webhookData, null, 2)}
+      </pre>
+    `);
+  });
 
 // Endpoint שמאזין לנתונים לוובהוק
 app.post('/webhook', (req, res) => {
     // עדכון המשתנה עם המידע שהתקבל מהוובהוק
-    webhookData = parseCSV(req.body);
-    generalData=extractGeneralData(webhookData);
+    webhookData = req.body;
+    // generalData=extractGeneralData(webhookData);
     // הדפסת המידע שהתקבל בקונסול של השרת
     console.log('📩 התקבל מידע מהוובהוק:', webhookData);
 
