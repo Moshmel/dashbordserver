@@ -1,30 +1,30 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors'); // הוספת CORS
-const { parseCSV } = require('./functions/csvParser'); // מייבאים את הפונקציה מקובץ functions/csvParser.js
+const { parseCSV,extractGeneralData } = require('./functions/csvParser').default; // מייבאים את הפונקציה מקובץ functions/csvParser.js
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // משתנה לאחסון הנתונים שהתקבלו
-let webhookData = '[]';
 
-// אפשר לכל האתרים לשלוח בקשות (או לציין דומיין ספציפי)
 app.use(cors());
-
-// Middleware שיאפשר קריאת Body כטקסט רגיל (string)
 app.use(bodyParser.text({ type: '*/*' }));
+
+let webhookData = '[]';
+let salesData=[];
+let generalData=[];
 
 // Endpoint שמאזין לבקשת GET בנתיב הראשי (לצורך הצגת הנתונים)
 app.get('/', (req, res) => {
-    res.send(`<pre>${JSON.stringify(webhookData, null, 2)}</pre>`);
+    res.send(`<pre>${JSON.stringify(generalData, null, 2)}</pre>`);
 });
 
 // Endpoint שמאזין לנתונים לוובהוק
 app.post('/webhook', (req, res) => {
     // עדכון המשתנה עם המידע שהתקבל מהוובהוק
     webhookData = parseCSV(req.body);
-
+    generalData=extractGeneralData(webhookData);
     // הדפסת המידע שהתקבל בקונסול של השרת
     console.log('📩 התקבל מידע מהוובהוק:', webhookData);
 
