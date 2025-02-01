@@ -16,7 +16,7 @@ app.use(bodyParser.text({ type: '*/*' }));
 
 // Endpoint שמאזין לבקשת GET בנתיב הראשי (לצורך הצגת הנתונים)
 app.get('/', (req, res) => {
-    res.send(`${webhookData}`);
+    res.send(`<pre>${webhookData}</pre>`);
 });
 
 // Endpoint שמאזין לנתונים לוובהוק
