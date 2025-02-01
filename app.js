@@ -17,7 +17,7 @@ let generalData=[];
 
 // Endpoint שמאזין לבקשת GET בנתיב הראשי (לצורך הצגת הנתונים)
 app.get('/', (req, res) => {
-    res.send(`<pre>${JSON.stringify(generalData, null, 2)}</pre>`);
+    res.send(`<pre>${JSON.stringify(generalData, null, 2)}${JSON.stringify(webhookData, null, 2)}</pre>`);
 });
 
 // Endpoint שמאזין לנתונים לוובהוק
